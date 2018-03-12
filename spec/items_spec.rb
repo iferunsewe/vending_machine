@@ -51,4 +51,21 @@ RSpec.describe Items do
       end
     end
   end
+
+  describe '#reduce_item' do
+    subject(:reduce_item) { items.reduce_item(item.name) }
+
+    context 'when the item is in stock' do
+      it 'reduces the quantity of the item by 1' do
+        expect{ reduce_item }.to change{ item.quantity }.by -1
+      end
+    end
+
+    context 'when the item is not in stock' do
+      it 'raises an error' do
+        items.find_item(item.name).quantity = 0
+        expect{ reduce_item }.to raise_error "Item: #{item.name} is not in stock"
+      end
+    end
+  end
 end

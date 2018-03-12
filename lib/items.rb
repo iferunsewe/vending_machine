@@ -5,18 +5,25 @@ class Items
     @stock = stock
   end
 
-  def price_of_item(name_of_item)
-    find_item(name_of_item).price
+  def price_of_item(name)
+    find_item(name).price
   end
 
-  def find_item(name_of_item)
-    item = stock.detect{|item| item.name == name_of_item }
-    raise "Item: #{name_of_item} could not be found" if item.nil?
+  def find_item(name)
+    item = stock.detect{|item| item.name == name }
+    raise "Item: #{name} could not be found" if item.nil?
     item
   end
 
-  def has_item?(name_of_item)
-    find_item(name_of_item).quantity > 0 ?
-      true : raise("Item: #{name_of_item} is not in stock")
+  def has_item?(name)
+    find_item(name).quantity > 0 ?
+      true : raise("Item: #{name} is not in stock")
+  end
+  
+  def reduce_item(name)
+    has_item?(name)
+    item = find_item(name)
+    item.quantity -= 1
+    item
   end
 end
