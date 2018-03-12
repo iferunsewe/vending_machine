@@ -1,3 +1,5 @@
+require_relative 'items'
+
 class VendingMachine
   attr_reader :float, :items
 
