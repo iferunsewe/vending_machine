@@ -21,8 +21,8 @@ RSpec.describe Items do
 
     context 'when the item does not exist' do
       let(:item) { Item.new(name: 'FooBar', price: 40) }
-      it 'returns the item' do
-        expect{ find_item }.to raise_error 'Item could not be found'
+      it 'raises an error' do
+        expect{ find_item }.to raise_error "Item: #{item.name} could not be found"
       end
     end
   end
@@ -32,6 +32,23 @@ RSpec.describe Items do
 
     it 'returns the price of an item' do
       expect(price_of_item).to eq item.price
+    end
+  end
+
+  describe '#has_item?' do
+    subject(:has_item?) { items.has_item?(item.name) }
+
+    context 'when the item is in stock' do
+      it 'returns the price of an item' do
+        expect(has_item?).to eq true
+      end
+    end
+
+    context 'when the item is not in stock' do
+      it 'raises an error' do
+        items.find_item(item.name).quantity = 0
+        expect{ has_item? }.to raise_error "Item: #{item.name} is not in stock"
+      end
     end
   end
 end
