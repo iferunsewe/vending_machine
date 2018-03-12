@@ -8,4 +8,22 @@ RSpec.describe Items do
   ] }
 
   it 'returns a stock' do expect(items.stock).to eq(stock) end
+
+  describe '#find item' do
+    subject(:find_item) { items.find_item(item.name) }
+
+    context 'when the item exists' do
+      let(:item) { items.stock.sample }
+      it 'returns the item' do
+        expect(find_item).to eq item
+      end
+    end
+
+    context 'when the item does not exist' do
+      let(:item) { Item.new(name: 'FooBar', price: 40) }
+      it 'returns the item' do
+        expect{ find_item }.to raise_error 'Item could not be found'
+      end
+    end
+  end
 end
