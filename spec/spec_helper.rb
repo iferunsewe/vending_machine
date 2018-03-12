@@ -15,6 +15,7 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
 require_relative '../lib/vending_machine'
+require_relative '../lib/items'
 require_relative '../lib/item'
 
 RSpec.configure do |config|
