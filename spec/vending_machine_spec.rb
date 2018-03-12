@@ -11,7 +11,7 @@ RSpec.describe VendingMachine do
     ] }
     it 'sets the items attribute in the vending_machine' do
       load_items
-      expect(vending_machine.items).to eq items
+      expect(vending_machine.items.stock).to eq items
     end
   end
 end

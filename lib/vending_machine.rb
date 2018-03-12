@@ -7,6 +7,6 @@ class VendingMachine
   end
 
   def load_items(items)
-    @items = items
+    @items = Items.new(stock: items)
   end
 end
