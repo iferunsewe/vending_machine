@@ -1,5 +1,4 @@
 require 'spec_helper'
-require_relative '../lib/item'
 
 RSpec.describe Item do
   subject(:item) { described_class.new(name: name, price: price, quantity: quantity) }
