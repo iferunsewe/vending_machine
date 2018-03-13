@@ -14,7 +14,7 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
-require_relative '../lib/vending_machine'
+require_relative '../lib/machine'
 require_relative '../lib/items'
 require_relative '../lib/item'
 require_relative '../lib/money_collection'
