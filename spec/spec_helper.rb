@@ -18,6 +18,7 @@ require_relative '../lib/vending_machine'
 require_relative '../lib/items'
 require_relative '../lib/item'
 require_relative '../lib/money_collection'
+require_relative '../lib/transaction'
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
