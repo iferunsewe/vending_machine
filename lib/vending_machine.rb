@@ -15,4 +15,9 @@ class VendingMachine
   def load_float(money_options)
     @float = MoneyCollection.new(money_options)
   end
+
+  def buy(name_of_item:, customer_purse:)
+    @float + customer_purse
+    @items.reduce_item(name_of_item)
+  end
 end
