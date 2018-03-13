@@ -25,6 +25,22 @@ class MoneyCollection
     @total = calculate_total
   end
 
+  def - money_collection
+    money_attrs.each do |ivar|
+      new_value = instance_variable_get(ivar) - money_collection.instance_variable_get(ivar)
+      instance_variable_set(ivar, new_value)
+    end
+    self
+  end
+
+  def + money_collection
+    money_attrs.each do |ivar|
+      new_value = instance_variable_get(ivar) + money_collection.instance_variable_get(ivar)
+      instance_variable_set(ivar, new_value)
+    end
+    self
+  end
+
   private
 
   def fetch_value(denomination)

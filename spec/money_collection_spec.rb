@@ -20,4 +20,22 @@ RSpec.describe MoneyCollection do
       expect(money_collection.fifty_p).to eq money_options[coin].to_i * denominations_translator[coin]
     end
   end
+
+  describe '#+' do
+    subject(:add) { money_collection + MoneyCollection.new(money_options) }
+    it 'adds' do
+      coin = '50p'
+      additional_amount = money_options[coin].to_i * denominations_translator[coin]
+      expect{ add }.to change{ money_collection.fifty_p }.from(money_collection.fifty_p).to(money_collection.fifty_p + additional_amount)
+    end
+  end
+
+  describe '#-' do
+    subject(:minus) { money_collection - MoneyCollection.new(money_options) }
+    it 'adds' do
+      coin = '50p'
+      additional_amount = money_options[coin].to_i * denominations_translator[coin]
+      expect{ minus }.to change{ money_collection.fifty_p }.from(money_collection.fifty_p).to(money_collection.fifty_p - additional_amount)
+    end
+  end
 end
