@@ -5,10 +5,14 @@ class VendingMachine
 
   def initialize
     @items = []
-    @float = 0
+    @float = nil
   end
 
   def load_items(items)
     @items = Items.new(stock: items)
+  end
+
+  def load_float(money_options)
+    @float = MoneyCollection.new(money_options)
   end
 end
