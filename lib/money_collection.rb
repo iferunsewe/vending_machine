@@ -28,7 +28,6 @@ class MoneyCollection
   private
 
   def fetch_value(denomination)
-    raise "This denomination: #{denomination} is not accepted." if DENOMINATIONS[denomination].nil?
     @options.fetch(denomination, 0).to_i * DENOMINATIONS[denomination]
   end
 
