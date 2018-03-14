@@ -42,12 +42,10 @@ class Machine
       {name: 'Refreshers', quantity: 10, price: 50},
       {name: 'Wham', quantity: 6, price: 30},
       {name: 'Freddos', quantity: 10, price: 20},
-      {name: 'Poppets', quantity: 10, price: 55},
+      {name: 'Poppets', quantity: 2, price: 55},
       {name: 'Irn Bru', quantity: 7, price: 60},
       {name: 'Chewits', quantity: 10, price: 100},
-      {name: 'Love Hearts', quantity: 10, price: 95},
-      {name: 'Caramac', quantity: 2, price: 85},
-      {name: 'Polos', quantity: 10, price: 75},
+      {name: 'Love Hearts', quantity: 10, price: 95}
     ]
 
   DEFAULT_FLOAT = {
