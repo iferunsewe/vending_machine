@@ -3,6 +3,8 @@ require_relative 'items'
 class Machine
   attr_reader :float, :items
 
+  MAX_ITEMS = 1
+
   def initialize
     @items = []
     @float = nil
