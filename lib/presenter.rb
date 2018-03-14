@@ -10,7 +10,7 @@ class Presenter
       menu.prompt = 'Welcome to the vending machine. Please pick an option by picking a number.'
       menu.choice('load vending machine') { loading_menu }
       menu.choice('buy an item') { items_menu }
-      menu.choice('what is in the vending machine') do
+      menu.choice('show items in the vending machine') do
         say_vending_machine_items
         main_menu
       end
@@ -18,6 +18,8 @@ class Presenter
       menu.choice(:quit, 'Exit vending machine') { exit }
     end
   end
+
+  private
 
   def loading_menu
     @cli.choose do |menu|
@@ -52,19 +54,11 @@ class Presenter
   def reload_menu
     @cli.choose do |menu|
       menu.prompt = 'What do you want to reload?'
-      menu.choice('reload item') do
-        say_vending_machine_items
-        item_name = ask "Which item do you want to reload? Just enter the name e.g. #{@machine.items.stock.sample.name}"
-        @machine.reload_item(item_name)
-        say_vending_machine_item(item_name)
-        reload_menu
-      end
-      menu.choice('reload_float')
+      menu.choice('reload item') { reload_item_branch }
+      menu.choice('reload float') { reload_float_branch }
       menu.choice('Back to main menu') { main_menu }
     end
   end
-
-  private
 
   def load_option
     say_empty_machine
@@ -88,21 +82,24 @@ class Presenter
   end
 
   def ask_for_float
-    ask(
-      'Please load some money so I can give change.' + generic_money_question_text
-    ){ |q| q.default = '1p: 100, 20p: 50, £1: 30, £2: 15'} # TODO: validate format
+    generic_money_question_text('Please load some money so I can give change.')
   end
 
   def ask_for_customer_money
-    ask(
-      'Show me the money! Please pay for your item.' + generic_money_question_text
-    ){ |q| q.default = '1p: 100, 20p: 50, £1: 30, £2: 15'} # TODO: validate format
+    generic_money_question_text('Show me the money! Please pay for your item.')
   end
 
-  def generic_money_question_text
-    'The vending machine only takes these coins: 1p, 2p, 5p, 10p, 20p, 50p, £1, £2.
+  def ask_for_reload
+    generic_money_question_text('How much do you want to reload.')
+  end
+
+  def generic_money_question_text(custom_text)
+    ask(
+      custom_text + '
+      The vending machine only takes these coins: 1p, 2p, 5p, 10p, 20p, 50p, £1, £2.
 Please enter the coin and how many you want to insert into the machine.
 Default: '
+    ){ |q| q.default = '1p: 100, 20p: 50, £1: 30, £2: 15'} # TODO: validate format
   end
 
   def say_float
@@ -178,6 +175,22 @@ Default: '
     puts "You have bought #{item_name} and are provided with #{format_money(transaction.change)} change"
     say_vending_machine_items
     say_float
+  end
+
+  def reload_item_branch
+    say_vending_machine_items
+    item_name = ask "Which item do you want to reload? Just enter the name e.g. #{@machine.items.stock.sample.name}"
+    @machine.reload_item(item_name)
+    say_vending_machine_item(item_name)
+    reload_menu
+  end
+
+  def reload_float_branch
+    say_float
+    amount_received = MoneyCollection.new(convert_money_answer_to_hash(ask_for_reload))
+    @machine.reload_float(amount_received)
+    say_float
+    reload_menu
   end
 end
 

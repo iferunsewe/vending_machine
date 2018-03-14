@@ -12,7 +12,7 @@ class MoneyCollection
 
   attr_reader :total, :one_p, :two_p, :five_p, :ten_p, :twenty_p, :fifty_p, :one_pound, :two_pound
 
-  def initialize(options)
+  def initialize(options={})
     @options = options
     @one_p = fetch_value('1p')
     @two_p = fetch_value('2p')

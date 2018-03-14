@@ -7,7 +7,7 @@ class Machine
 
   def initialize
     @items = Items.new
-    @float = nil
+    @float = MoneyCollection.new
   end
 
   def load_items(items)
@@ -32,6 +32,10 @@ class Machine
     item = @items.find_item(name_of_item)
     raise "There is already enough of #{name_of_item} in the vending machine" if item.quantity == Item::MAX_QUANTITY
     item.quantity = Item::MAX_QUANTITY
+  end
+
+  def reload_float(money)
+    @float + money
   end
 
   def items_empty?
