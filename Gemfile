@@ -8,4 +8,4 @@ gem 'highline'
 
 gem 'money'
 
-gem 'table'
+gem 'terminal-table'
