@@ -78,4 +78,25 @@ RSpec.describe Machine do
       expect{ use_preloaded_vending_machine }.to change{ machine.float }.from(nil).to(MoneyCollection)
     end
   end
+
+  describe '#reload_item' do
+    subject(:reload_item) { machine.reload_item(name_of_item) }
+    let(:name_of_item) { items.sample[:name] }
+
+    context 'when there is less than 10 of the item in the vending machine' do
+      it 'reloads the item' do
+        machine.load_items(items)
+        reload_item
+        expect(machine.items.find_item(name_of_item).quantity).to eq Item::MAX_QUANTITY
+      end
+    end
+
+    context 'when the quanitty of the item is exactly 10' do
+      it 'raises an error' do
+        items.detect{|item| item[:name]}[:quantity] = 10
+        machine.load_items(items)
+        expect{ reload_item }.to raise_error "There is already enough of #{name_of_item} in the vending machine"
+      end
+    end
+  end
 end

@@ -35,7 +35,11 @@ class Presenter
   def reload_menu
     @cli.choose do |menu|
       menu.prompt = 'What do you want to reload?'
-      menu.choice(:reload_item)
+      menu.choice(:reload_item) do
+        say_vending_machine_items
+        item_name = ask 'Which item do you want to reload?'
+        @machine.reload_item(item_name)
+      end
       menu.choice(:reload_float)
     end
   end

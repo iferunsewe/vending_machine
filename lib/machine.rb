@@ -28,6 +28,12 @@ class Machine
     load_float(DEFAULT_FLOAT)
   end
 
+  def reload_item(name_of_item)
+    item = @items.find_item(name_of_item)
+    raise "There is already enough of #{name_of_item} in the vending machine" if item.quantity == Item::MAX_QUANTITY
+    item.quantity = Item::MAX_QUANTITY
+  end
+
   private
 
   DEFAULT_ITEMS =
