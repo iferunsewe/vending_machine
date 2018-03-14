@@ -1,5 +1,6 @@
 class Transaction
   attr_reader :amount_still_required, :change
+  attr_accessor :customer_cash_total
 
   def initialize(item:, customer_cash_total:)
     @item = item
