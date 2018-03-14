@@ -30,7 +30,7 @@ RSpec.describe Machine do
   describe '#load_float' do
     subject(:load_float) { machine.load_float(money_options) }
     it 'sets the float attribute in the machine' do
-      expect{ load_float }.to change{ machine.float }.from(nil).to(MoneyCollection)
+      expect{ load_float }.to change{ machine.float }
     end
   end
 
@@ -75,7 +75,7 @@ RSpec.describe Machine do
     end
 
     it 'sets the float attribute in the machine' do
-      expect{ use_preloaded_vending_machine }.to change{ machine.float }.from(nil).to(MoneyCollection)
+      expect{ use_preloaded_vending_machine }.to change{ machine.float }
     end
   end
 

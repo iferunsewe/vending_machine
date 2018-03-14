@@ -21,17 +21,20 @@ class Machine
   def buy(name_of_item:, customer_purse:)
     @float + customer_purse
     @items.reduce_item(name_of_item)
+    self
   end
 
   def use_preloaded_vending_machine
     load_items(DEFAULT_ITEMS)
     load_float(DEFAULT_FLOAT)
+    self
   end
 
   def reload_item(name_of_item)
     item = @items.find_item(name_of_item)
     raise "There is already enough of #{name_of_item} in the vending machine" if item.quantity == Item::MAX_QUANTITY
     item.quantity = Item::MAX_QUANTITY
+    item
   end
 
   def reload_float(money)
