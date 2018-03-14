@@ -5,18 +5,34 @@ class Presenter
     @machine = Machine.new
   end
 
+  def main_menu
+    @cli.choose do |menu|
+      menu.prompt = 'Welcome to the vending machine. Please pick an option by picking a number.'
+      menu.choice('load vending machine') { loading_menu }
+      menu.choice('buy an item') { items_menu }
+      menu.choice('what is in the vending machine') do
+        say_vending_machine_items
+        main_menu
+      end
+      menu.choice('reload vending machine') { reload_menu }
+      menu.choice(:quit, 'Exit vending machine') { exit }
+    end
+  end
+
   def loading_menu
     @cli.choose do |menu|
       menu.prompt = 'Please choose an option'
       menu.choice(:preload) do
         preload_option
         items_menu
+        main_menu
       end
       menu.choice(:load) do
         load_option
         items_menu
+        main_menu
       end
-      menu.choice(:quit, 'Exit vending machine') { exit }
+      menu.choice('Back to main menu') { main_menu }
     end
   end
 
@@ -26,21 +42,25 @@ class Presenter
       @machine.items.stock.each do |item|
         menu.choice("#{item.name} - #{format_money(item.price)}") do
           make_transaction(item)
+          items_menu
         end
       end
-      menu.choice(:quit, 'Exit vending machine') { exit }
+      menu.choice('Back to main menu') { main_menu }
     end
   end
 
   def reload_menu
     @cli.choose do |menu|
       menu.prompt = 'What do you want to reload?'
-      menu.choice(:reload_item) do
+      menu.choice('reload item') do
         say_vending_machine_items
-        item_name = ask 'Which item do you want to reload?'
+        item_name = ask "Which item do you want to reload? Just enter the name e.g. #{@machine.items.stock.sample.name}"
         @machine.reload_item(item_name)
+        say_vending_machine_item(item_name)
+        reload_menu
       end
-      menu.choice(:reload_float)
+      menu.choice('reload_float')
+      menu.choice('Back to main menu') { main_menu }
     end
   end
 
@@ -64,7 +84,7 @@ class Presenter
   end
 
   def say_empty_machine
-    say 'Good choice. The machine is empty and people are hungry!'
+    say 'The machine is empty!'
   end
 
   def ask_for_float
@@ -101,11 +121,19 @@ Default: '
   end
 
   def say_vending_machine_items
-    # say "The vending machine now contains #{create_items_table(@machine.items.stock)}"
-    say "The vending machine now contains #{
-    @machine.items.stock.map do |item|
-      "#{item.quantity} of #{item.name} - #{format_money(item.price)}"
-    end.join(', ')}"
+    if @machine.items_empty?
+      say_empty_machine
+    else
+      say "The vending machine now contains #{
+      @machine.items.stock.map do |item|
+        "#{item.quantity} of #{item.name} - #{format_money(item.price)}"
+      end.join(', ')}"
+    end
+  end
+
+  def say_vending_machine_item(name_of_item)
+    item = @machine.items.find_item(name_of_item)
+    say "The vending machine now contains #{item.quantity} of #{item.name}"
   end
 
   def convert_items_to_hash(items)
@@ -153,4 +181,4 @@ Default: '
   end
 end
 
-Presenter.new.loading_menu
+Presenter.new.main_menu

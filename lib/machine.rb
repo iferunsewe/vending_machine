@@ -6,7 +6,7 @@ class Machine
   MAX_ITEMS = 8
 
   def initialize
-    @items = []
+    @items = Items.new
     @float = nil
   end
 
@@ -32,6 +32,10 @@ class Machine
     item = @items.find_item(name_of_item)
     raise "There is already enough of #{name_of_item} in the vending machine" if item.quantity == Item::MAX_QUANTITY
     item.quantity = Item::MAX_QUANTITY
+  end
+
+  def items_empty?
+    @items.stock.empty?
   end
 
   private

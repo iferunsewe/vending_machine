@@ -1,7 +1,7 @@
 class Items
   attr_reader :stock
 
-  def initialize(stock:)
+  def initialize(stock: [])
     @stock = create_stock(stock)
   end
 
