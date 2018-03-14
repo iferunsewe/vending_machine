@@ -63,4 +63,19 @@ RSpec.describe Machine do
       end
     end
   end
+
+  describe '#use_preloaded_vending_machine' do
+    subject(:use_preloaded_vending_machine) { machine.use_preloaded_vending_machine }
+    let(:item) { {name: 'Millions', quantity: 10, price: 70} }
+
+    it 'sets the items attribute in the machine' do
+      use_preloaded_vending_machine
+      expect(machine.items.stock).to all( be_an(Item) )
+      expect(machine.items.find_item(item[:name])).to have_attributes(name: item[:name], price: item[:price], quantity: item[:quantity])
+    end
+
+    it 'sets the float attribute in the machine' do
+      expect{ use_preloaded_vending_machine }.to change{ machine.float }.from(nil).to(MoneyCollection)
+    end
+  end
 end

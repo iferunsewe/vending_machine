@@ -22,4 +22,36 @@ class Machine
     @float + customer_purse
     @items.reduce_item(name_of_item)
   end
+
+  def use_preloaded_vending_machine
+    load_items(DEFAULT_ITEMS)
+    load_float(DEFAULT_FLOAT)
+  end
+
+  private
+
+  DEFAULT_ITEMS =
+    [
+      {name: 'Millions', quantity: 10, price: 70},
+      {name: 'Refreshers', quantity: 10, price: 50},
+      {name: 'Wham', quantity: 10, price: 30},
+      {name: 'Freddos', quantity: 10, price: 20},
+      {name: 'Poppets', quantity: 10, price: 55},
+      {name: 'Irn Bru', quantity: 10, price: 60},
+      {name: 'Chewits', quantity: 10, price: 100},
+      {name: 'Love Hearts', quantity: 10, price: 95},
+      {name: 'Caramac', quantity: 10, price: 85},
+      {name: 'Polos', quantity: 10, price: 75},
+    ]
+
+  DEFAULT_FLOAT = {
+    '1p'=> 100,
+    '2p' => 500,
+    '5p' => 100,
+    '10p' => 100,
+    '20p' => 50,
+    '50p' => 8,
+    '£1' => 30,
+    '£2' => 15
+  }
 end

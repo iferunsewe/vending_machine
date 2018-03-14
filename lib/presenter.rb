@@ -10,7 +10,7 @@ class Presenter
     @cli.choose do |menu|
       menu.prompt = 'Please choose an option'
       menu.choice(:preload) do
-        say 'You have chosesn to preload'
+        preload_option
       end
       menu.choice(:load) do
         load_option
@@ -33,6 +33,13 @@ class Presenter
     say_float
     items = ask_for_items
     @machine.load_items(convert_items_to_hash(items))
+    say_vending_machine_items
+  end
+
+  def preload_option
+    say 'You have chosen to preload'
+    @machine.use_preloaded_vending_machine
+    say_float
     say_vending_machine_items
   end
 
