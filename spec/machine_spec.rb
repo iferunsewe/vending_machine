@@ -13,6 +13,10 @@ RSpec.describe Machine do
     '£1' => '4',
   } }
 
+  it 'returns a max items of 8' do
+    expect(Machine::MAX_ITEMS).to eq 8
+  end
+
   describe '#load_items' do
     subject(:load_items) { machine.load_items(items) }
     let(:item) { items.sample }

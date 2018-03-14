@@ -9,7 +9,9 @@ class Presenter
   def loading_menu
     @cli.choose do |menu|
       menu.prompt = 'Please choose an option'
-      menu.choice(:preload) { say 'You have chosesn to preload' }
+      menu.choice(:preload) do
+        say 'You have chosesn to preload'
+      end
       menu.choice(:load) do
         load_option
       end
