@@ -64,7 +64,7 @@ class Presenter
 
   def ask_for_customer_money
     ask(
-      'Please pay for your item.' + generic_money_question_text
+      'Show me the money! Please pay for your item.' + generic_money_question_text
     ){ |q| q.default = '1p: 100, 20p: 50, £1: 30, £2: 15'} # TODO: validate format
   end
 
@@ -75,7 +75,7 @@ Default: '
   end
 
   def say_float
-    say "The vending machine is now loaded with #{format_money(@machine.float.total)}. I'm feeling rich!"
+    say "The vending machine is now loaded with #{format_money(@machine.float.total)}. We're in the money"
   end
 
   def ask_for_items
@@ -136,6 +136,14 @@ Default: '
     while transaction.insufficient_funds?
       insufficient_funds_branch(transaction, customer_cash)
     end
+    successful_transaction(item.name, transaction, customer_cash)
+  end
+
+  def successful_transaction(item_name, transaction, customer_cash)
+    @machine.buy(name_of_item: item_name, customer_purse: customer_cash)
+    puts "You have bought #{item_name} and are provided with #{format_money(transaction.change)} change"
+    say_vending_machine_items
+    say_float
   end
 end
 
