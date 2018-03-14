@@ -32,6 +32,14 @@ class Presenter
     end
   end
 
+  def reload_menu
+    @cli.choose do |menu|
+      menu.prompt = 'What do you want to reload?'
+      menu.choice(:reload_item)
+      menu.choice(:reload_float)
+    end
+  end
+
   private
 
   def load_option
@@ -116,25 +124,25 @@ Default: '
     Money.new(money, 'GBP').format
   end
 
-  def insufficient_funds_branch(transaction, customer_cash)
+  def insufficient_funds_branch(transaction, customer_purse)
     say "You still owe #{format_money(transaction.amount_still_required)}"
     money_answer = ask_for_customer_money
-    customer_cash + MoneyCollection.new(convert_money_answer_to_hash(money_answer))
-    transaction.customer_cash_total = customer_cash.total
+    customer_purse + MoneyCollection.new(convert_money_answer_to_hash(money_answer))
+    transaction.customer_purse_total = customer_purse.total
   end
 
   def make_transaction(item)
     money_answer = ask_for_customer_money
-    customer_cash = MoneyCollection.new(convert_money_answer_to_hash(money_answer))
-    transaction = Transaction.new(item: item, customer_cash_total: customer_cash.total)
+    customer_purse = MoneyCollection.new(convert_money_answer_to_hash(money_answer))
+    transaction = Transaction.new(item: item, customer_purse_total: customer_purse.total)
     while transaction.insufficient_funds?
-      insufficient_funds_branch(transaction, customer_cash)
+      insufficient_funds_branch(transaction, customer_purse)
     end
-    successful_transaction(item.name, transaction, customer_cash)
+    successful_transaction(item.name, transaction, customer_purse)
   end
 
-  def successful_transaction(item_name, transaction, customer_cash)
-    @machine.buy(name_of_item: item_name, customer_purse: customer_cash)
+  def successful_transaction(item_name, transaction, customer_purse)
+    @machine.buy(name_of_item: item_name, customer_purse: customer_purse)
     puts "You have bought #{item_name} and are provided with #{format_money(transaction.change)} change"
     say_vending_machine_items
     say_float
