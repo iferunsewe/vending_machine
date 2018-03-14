@@ -93,7 +93,7 @@ RSpec.describe Machine do
 
     context 'when the quanitty of the item is exactly 10' do
       it 'raises an error' do
-        items.detect{|item| item[:name]}[:quantity] = 10
+        items.detect{|item| item[:name] == name_of_item}[:quantity] = 10
         machine.load_items(items)
         expect{ reload_item }.to raise_error "There is already enough of #{name_of_item} in the vending machine"
       end
