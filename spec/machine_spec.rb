@@ -3,8 +3,8 @@ require 'spec_helper'
 RSpec.describe Machine do
   subject(:machine) { described_class.new }
   let(:items) { [
-    Item.new(name: 'Foo', price: 40, quantity: 5),
-    Item.new(name: 'Bar', price: 30, quantity: 8)
+    {name: 'Foo', price: 40, quantity: 5},
+    {name: 'Bar', price: 30, quantity: 8}
   ] }
   let(:money_options){ {
     '5p' => '10',
@@ -15,9 +15,11 @@ RSpec.describe Machine do
 
   describe '#load_items' do
     subject(:load_items) { machine.load_items(items) }
+    let(:item) { items.sample }
     it 'sets the items attribute in the machine' do
       load_items
-      expect(machine.items.stock).to eq items
+      expect(machine.items.stock).to all( be_an(Item) )
+      expect(machine.items.find_item(item[:name])).to have_attributes(name: item[:name], price: item[:price], quantity: item[:quantity])
     end
   end
 
@@ -30,7 +32,7 @@ RSpec.describe Machine do
 
   describe '#buy' do
     subject(:buy) { machine.buy(name_of_item: name_of_item, customer_purse: customer_purse) }
-    let(:name_of_item) { items.sample.name }
+    let(:name_of_item) { items.sample[:name] }
     let(:denomination) { '20p' }
     let(:quantity) { 3 }
     let(:customer_purse) { MoneyCollection.new({ denomination => quantity}) }
