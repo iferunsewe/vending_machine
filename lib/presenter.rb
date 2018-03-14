@@ -3,7 +3,6 @@ class Presenter
     puts '---------------------- VENDING MACHINE ----------------------'
     @cli = HighLine.new
     @machine = Machine.new
-    @table = Terminal::Table.new
   end
 
   def loading_menu
@@ -115,11 +114,6 @@ Default: '
 
   def format_money(money)
     Money.new(money, 'GBP').format
-  end
-
-  def create_items_table(items)
-    @table.headings = ['name', 'price', 'quantity']
-    @table.rows = items
   end
 
   def insufficient_funds_branch(transaction, customer_cash)
