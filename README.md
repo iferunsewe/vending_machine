@@ -17,7 +17,7 @@ This program will display all the same functionality as a vending machine. This 
 
 To clone the repository:
     
-    git clone
+    git clone git@github.com:iferunsewe/vending_machine.git
     
 Now you'll have to bundle to install all the relevant gems
     
