@@ -14,6 +14,7 @@ class Presenter
         say_vending_machine_items
         main_menu
       end
+      menu.choice('show the money in the vending machine') { say_float }
       menu.choice('reload vending machine') { reload_menu }
       menu.choice(:quit, 'Exit vending machine') { exit }
     end
