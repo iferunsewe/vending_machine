@@ -176,7 +176,7 @@ Default: '
   end
 
   def successful_transaction_branch(item_name, transaction, customer_purse)
-    @machine.buy(name_of_item: item_name, customer_purse: customer_purse, transaction: transaction)
+    @machine.buy(name_of_item: item_name, customer_purse: customer_purse, change: transaction.change)
     puts "You have bought #{item_name} and are provided with #{format_money(transaction.change)} change"
     say_vending_machine_items
     say_float

@@ -10,7 +10,8 @@ class MoneyCollection
     '£2' => 200
   }
 
-  attr_reader :total, :one_p, :two_p, :five_p, :ten_p, :twenty_p, :fifty_p, :one_pound, :two_pound
+  attr_reader :one_p, :two_p, :five_p, :ten_p, :twenty_p, :fifty_p, :one_pound, :two_pound
+  attr_accessor :total
 
   def initialize(options={})
     @options = options

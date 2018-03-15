@@ -35,11 +35,12 @@ RSpec.describe Machine do
   end
 
   describe '#buy' do
-    subject(:buy) { machine.buy(name_of_item: name_of_item, customer_purse: customer_purse) }
+    subject(:buy) { machine.buy(name_of_item: name_of_item, customer_purse: customer_purse, change: customer_change) }
     let(:name_of_item) { items.sample[:name] }
     let(:denomination) { '20p' }
     let(:quantity) { 3 }
     let(:customer_purse) { MoneyCollection.new({ denomination => quantity}) }
+    let(:customer_change) { 0 }
 
     context 'when the vending machine is loaded' do
       it 'reduces the number of the item in stock by 1' do
@@ -55,11 +56,22 @@ RSpec.describe Machine do
         expect{ buy }.to change{ machine.float.total }.by amount_added
       end
 
-      it 'increases the coins entered ' do
+      it 'increases the coins entered' do
         machine.load_items(items)
         machine.load_float(money_options)
         amount_added = MoneyCollection::DENOMINATIONS[denomination] * quantity.to_i
         expect{ buy }.to change{ machine.float.twenty_p }.by amount_added
+      end
+    end
+
+    context 'when there is change' do
+      let(:customer_change) { 20 }
+
+      it 'dedeucts the change from the float total' do
+        machine.load_items(items)
+        machine.load_float(money_options)
+        amount_added = MoneyCollection::DENOMINATIONS[denomination] * quantity.to_i - customer_change
+        expect{ buy }.to change{ machine.float.total }.by amount_added
       end
     end
   end

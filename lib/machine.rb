@@ -18,8 +18,11 @@ class Machine
     @float = MoneyCollection.new(money_options)
   end
 
-  def buy(name_of_item:, customer_purse:)
+  def buy(name_of_item:, customer_purse:, change: 0)
     @float + customer_purse
+    # I would have liked to translate the transaction change in to a MoneyCollection object so I could deduct the right
+    # coin from the float but that proved difficult
+    @float.total -= change
     @items.reduce_item(name_of_item)
     self
   end
