@@ -4,6 +4,7 @@ require 'pry'
 require 'highline/import'
 require 'highline'
 require 'money'
+require 'terminal-table'
 I18n.enforce_available_locales = false
 require_relative 'vending_machine/item'
 require_relative 'vending_machine/items'

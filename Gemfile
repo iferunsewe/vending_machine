@@ -7,3 +7,5 @@ gem 'pry-byebug'
 gem 'highline'
 
 gem 'money'
+
+gem 'terminal-table'

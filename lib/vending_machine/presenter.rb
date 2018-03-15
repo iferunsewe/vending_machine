@@ -5,6 +5,7 @@ class Presenter
     puts '---------------------- VENDING MACHINE ----------------------'
     @cli = HighLine.new
     @machine = Machine.new
+    @table = Terminal::Table.new
   end
 
   def main_menu
@@ -127,10 +128,18 @@ Default: '
 
   def say_vending_machine_items
     say_empty_machine
-    say_with_line_break "The vending machine now contains #{
+    say_with_line_break "The vending machine now contains:"
+    build_vending_machine_table
+  end
+
+  def build_vending_machine_table
+    @table.headings = ['name', 'quantity', 'price']
+    table_rows = []
     @machine.items.stock.map do |item|
-      "#{item.quantity} of #{item.name} - #{format_money(item.price)}"
-    end.join(', ')}"
+      table_rows << [item.name, item.quantity, format_money(item.price)]
+    end
+    @table.rows = table_rows
+    say @table
   end
 
   def say_vending_machine_item(name_of_item)
