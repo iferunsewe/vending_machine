@@ -151,7 +151,11 @@ Default: '
   end
 
   def format_money(money)
-    Money.new(money, 'GBP').format
+    if money < 100
+      "#{money}p"
+    else
+      Money.new(money, 'GBP').format
+    end
   end
 
   def insufficient_funds_branch(transaction, customer_purse)
@@ -172,7 +176,7 @@ Default: '
   end
 
   def successful_transaction_branch(item_name, transaction, customer_purse)
-    @machine.buy(name_of_item: item_name, customer_purse: customer_purse)
+    @machine.buy(name_of_item: item_name, customer_purse: customer_purse, transaction: transaction)
     puts "You have bought #{item_name} and are provided with #{format_money(transaction.change)} change"
     say_vending_machine_items
     say_float
