@@ -40,12 +40,15 @@ class Presenter
   end
 
   def items_menu
+    say_empty_machine
     @cli.choose do |menu|
       menu.prompt = "What do you want to buy? Enter the number for your item e.g. enter 1 for #{@machine.items.stock[0].name}"
       @machine.items.stock.each do |item|
-        menu.choice("#{item.name} - #{format_money(item.price)}") do
-          make_transaction(item)
-          items_menu
+        if @machine.items.has_item?(item.name)
+          menu.choice("#{item.name} - #{format_money(item.price)}") do
+            make_transaction(item)
+            items_menu
+          end
         end
       end
       menu.choice('Back to main menu') { main_menu }

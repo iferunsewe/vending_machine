@@ -20,7 +20,6 @@ class Items
   end
   
   def reduce_item(name)
-    return puts ("Item: #{name} is not in stock") unless has_item?(name)
     item = find_item(name)
     item.quantity -= 1
     item
