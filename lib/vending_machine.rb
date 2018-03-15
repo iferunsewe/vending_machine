@@ -10,3 +10,5 @@ require 'money'
 require 'terminal-table'
 I18n.enforce_available_locales = false
 require_relative 'presenter'
+
+Presenter.new.main_menu

@@ -11,7 +11,7 @@ class Transaction
   end
 
   def sufficient_funds?
-    @customer_purse_total >= @amount_required
+    customer_purse_total >= @amount_required
   end
 
   def insufficient_funds?
@@ -20,11 +20,11 @@ class Transaction
 
   def amount_still_required
     return 0 if sufficient_funds?
-    @amount_required - @customer_purse_total
+    @amount_required - customer_purse_total
   end
 
   def change
-    return 0 if @customer_purse_total == @amount_required || insufficient_funds?
-    @customer_purse_total - @amount_required
+    return 0 if customer_purse_total == @amount_required || insufficient_funds?
+    customer_purse_total - @amount_required
   end
 end

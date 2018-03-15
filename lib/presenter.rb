@@ -168,10 +168,10 @@ Default: '
     while transaction.insufficient_funds?
       insufficient_funds_branch(transaction, customer_purse)
     end
-    successful_transaction(item.name, transaction, customer_purse)
+    successful_transaction_branch(item.name, transaction, customer_purse)
   end
 
-  def successful_transaction(item_name, transaction, customer_purse)
+  def successful_transaction_branch(item_name, transaction, customer_purse)
     @machine.buy(name_of_item: item_name, customer_purse: customer_purse)
     puts "You have bought #{item_name} and are provided with #{format_money(transaction.change)} change"
     say_vending_machine_items
@@ -194,5 +194,3 @@ Default: '
     reload_menu
   end
 end
-
-Presenter.new.main_menu
