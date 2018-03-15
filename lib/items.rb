@@ -16,12 +16,11 @@ class Items
   end
 
   def has_item?(name)
-    find_item(name).quantity > 0 ?
-      true : raise("Item: #{name} is not in stock")
+    find_item(name).quantity > 0
   end
   
   def reduce_item(name)
-    has_item?(name)
+    return puts ("Item: #{name} is not in stock") unless has_item?(name)
     item = find_item(name)
     item.quantity -= 1
     item

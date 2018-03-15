@@ -42,15 +42,15 @@ RSpec.describe Items do
     subject(:has_item?) { items.has_item?(item.name) }
 
     context 'when the item is in stock' do
-      it 'returns the price of an item' do
+      it 'returns true' do
         expect(has_item?).to eq true
       end
     end
 
     context 'when the item is not in stock' do
-      it 'raises an error' do
+      it 'returns false' do
         items.find_item(item.name).quantity = 0
-        expect{ has_item? }.to raise_error "Item: #{item.name} is not in stock"
+        expect(has_item?).to eq false
       end
     end
   end
