@@ -14,11 +14,11 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
-require_relative '../lib/machine'
-require_relative '../lib/items'
-require_relative '../lib/item'
-require_relative '../lib/money_collection'
-require_relative '../lib/transaction'
+require_relative '../lib/vending_machine/machine'
+require_relative '../lib/vending_machine/items'
+require_relative '../lib/vending_machine/item'
+require_relative '../lib/vending_machine/money_collection'
+require_relative '../lib/vending_machine/transaction'
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
