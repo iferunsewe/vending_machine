@@ -1,4 +1,6 @@
 class Presenter
+  #TODO: Split apart class into different presenters
+
   def initialize
     puts '---------------------- VENDING MACHINE ----------------------'
     @cli = HighLine.new
