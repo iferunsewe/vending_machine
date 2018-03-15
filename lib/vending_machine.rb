@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'pry'
 require_relative 'item'
 require_relative 'items'

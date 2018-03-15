@@ -4,7 +4,7 @@ class Item
 
   def initialize(name:, price:, quantity: 1)
     @name = name
-    @price = price
-    @quantity = quantity
+    @price = price.to_i
+    @quantity = quantity.to_i
   end
 end

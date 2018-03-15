@@ -62,7 +62,6 @@ class Presenter
   end
 
   def load_option
-    say_empty_machine
     load = ask_for_float
     @machine.load_float(convert_money_answer_to_hash(load))
     say_float
@@ -79,7 +78,10 @@ class Presenter
   end
 
   def say_empty_machine
-    say 'The machine is empty!'
+    if @machine.items_empty?
+      say 'The machine is empty! Please load the machine.'
+      loading_menu
+    end
   end
 
   def ask_for_float
@@ -109,7 +111,7 @@ Default: '
 
   def ask_for_items
     ask(
-      'Now please load some items! A maximum of 10. Please enter in the format:
+      'Now please load some items! A maximum of 8 items. Please enter in the format:
 name: <name_of_item>, quantity: <quantity>, price: <price>
 Default: '
     ){ |q|
@@ -119,14 +121,11 @@ Default: '
   end
 
   def say_vending_machine_items
-    if @machine.items_empty?
-      say_empty_machine
-    else
-      say "The vending machine now contains #{
-      @machine.items.stock.map do |item|
-        "#{item.quantity} of #{item.name} - #{format_money(item.price)}"
-      end.join(', ')}"
-    end
+    say_empty_machine
+    say "The vending machine now contains #{
+    @machine.items.stock.map do |item|
+      "#{item.quantity} of #{item.name} - #{format_money(item.price)}"
+    end.join(', ')}"
   end
 
   def say_vending_machine_item(name_of_item)
@@ -138,8 +137,8 @@ Default: '
     items.map do |item|
       {
         name: item[/name:(.*?),/, 1].strip,
-        quantity:item[/quantity:(.*?),/, 1].strip,
-        price: item.split('price: £')[-1]
+        quantity: item[/quantity:(.*?),/, 1].strip,
+        price: item.split('price: ')[-1].gsub(/\D/,'')
       }
     end
   end
@@ -151,7 +150,7 @@ Default: '
   end
 
   def format_money(money)
-    if money < 100
+    if money.to_i < 100
       "#{money}p"
     else
       Money.new(money, 'GBP').format
