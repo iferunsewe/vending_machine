@@ -187,7 +187,7 @@ Default: '
   def reload_item_branch
     say_vending_machine_items
     item_name = ask "Which item do you want to reload? Just enter the name e.g. #{@machine.items.stock.sample.name}"
-    @machine.reload_item(item_name)
+    return say "There is already enough of #{item_name} in the vending machine" unless @machine.reload_item(item_name)
     say_vending_machine_item(item_name)
     reload_menu
   end
