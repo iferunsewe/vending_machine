@@ -74,7 +74,7 @@ class Presenter
   end
 
   def preload_option
-    say 'You have chosen to preload'
+    say_with_line_break 'You have chosen to preload'
     @machine.use_preloaded_vending_machine
     say_float
     say_vending_machine_items
@@ -82,7 +82,7 @@ class Presenter
 
   def say_empty_machine
     if @machine.items_empty?
-      say 'The machine is empty! Please load the machine.'
+      say_with_line_break 'The machine is empty! Please load the machine.'
       loading_menu
     end
   end
@@ -109,7 +109,7 @@ Default: '
   end
 
   def say_float
-    say "The vending machine is now loaded with #{format_money(@machine.float.total)}. We're in the money"
+    say_with_line_break "The vending machine is now loaded with #{format_money(@machine.float.total)}. We're in the money"
   end
 
   def ask_for_items
@@ -125,7 +125,7 @@ Default: '
 
   def say_vending_machine_items
     say_empty_machine
-    say "The vending machine now contains #{
+    say_with_line_break "The vending machine now contains #{
     @machine.items.stock.map do |item|
       "#{item.quantity} of #{item.name} - #{format_money(item.price)}"
     end.join(', ')}"
@@ -133,7 +133,7 @@ Default: '
 
   def say_vending_machine_item(name_of_item)
     item = @machine.items.find_item(name_of_item)
-    say "The vending machine now contains #{item.quantity} of #{item.name}"
+    say_with_line_break "The vending machine now contains #{item.quantity} of #{item.name}"
   end
 
   def convert_items_to_hash(items)
@@ -161,7 +161,7 @@ Default: '
   end
 
   def insufficient_funds_branch(transaction, customer_purse)
-    say "You still owe #{format_money(transaction.amount_still_required)}"
+    say_with_line_break "You still owe #{format_money(transaction.amount_still_required)}"
     money_answer = ask_for_customer_money
     customer_purse + MoneyCollection.new(convert_money_answer_to_hash(money_answer))
     transaction.customer_purse_total = customer_purse.total
@@ -187,7 +187,7 @@ Default: '
   def reload_item_branch
     say_vending_machine_items
     item_name = ask "Which item do you want to reload? Just enter the name e.g. #{@machine.items.stock.sample.name}"
-    return say "There is already enough of #{item_name} in the vending machine" unless @machine.reload_item(item_name)
+    return say_with_line_break "There is already enough of #{item_name} in the vending machine" unless @machine.reload_item(item_name)
     say_vending_machine_item(item_name)
     reload_menu
   end
@@ -198,5 +198,9 @@ Default: '
     @machine.reload_float(amount_received)
     say_float
     reload_menu
+  end
+
+  def say_with_line_break(text)
+    say "\n" + text + "\n"
   end
 end
